@@ -1,0 +1,24 @@
+{
+    "name": "shamaru001/captcha",
+    "description": "a captcha for any project",
+    "keywords": ["captcha", "captcha php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shamaru Primera",
+            "email": "shamaru001@gmail.com"
+        }
+    ],
+    "type": "Project",
+    "require": {
+		"php": ">=5.4"
+    },
+    "require-dev": {
+		"phpunit/phpunit": "6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "shamaru001\\captcha\\": "src/"
+        }
+    }
+}

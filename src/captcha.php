@@ -11,13 +11,16 @@ namespace shamaru001\captcha;
 */
 class captcha{
     private $image = null;
-    private $width  = 400;
-    private $heigth = 200;
+    private $width  = 200;
+    private $heigth = 100;
     private $RGBBackgroundColor = [0,100,0];
     private $RGBImageBackground = null;
     private $RGBTextColor = [233,14,91];
     private $textSize = 5;
     private $text = "text on screen";
+    private $coordinateX = 0;
+    private $coordinateY = 50;
+    private $angle = 0;
 
     public function __construct($textSize = 5, $RandomTextSize = false, $text=""){
 
@@ -54,6 +57,7 @@ class captcha{
     public function setRandomValues(){
         $this->RGBTextColor = [rand(0,255),rand(0,255),rand(0,255)];
         $this->RGBBackgroundColor = [rand(0,255),rand(0,255),rand(0,255)];
+        $this->angle = rand(($this->coordinateY/5)*-1,$this->coordinateY/5);
     }
 
     public function setTextColor($red, $green, $blue){
@@ -68,17 +72,24 @@ class captcha{
         return $this->text;
     }
 
+    public function setCoordinateX($val){
+        $this->coordinateX = (float) $val;
+    }
+
+    public function setCoordinateY($val){
+        $this->coordinateY = (float) $val;
+    }
+
+    public function setAngle($val){
+        $this->angle = (float) $val;
+    }
+
     function showImage(){
         $this->image = imagecreate($this->width, $this->heigth);
         $background_color = imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
         $text_color = imagecolorallocate($this->image, $this->RGBTextColor[0], $this->RGBTextColor[1], $this->RGBTextColor[2]);
-
-        $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf");
-        //imagestring($this->image, 132, 100, 100,  $this->getText(), $text_color);
-        imagettftext($this->image, 50, 0, 0, 100, $text_color, $font_path, $this->getText());
-
+        $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf"); 
+        imagettftext($this->image, $this->heigth/2, $this->angle, $this->coordinateX, $this->coordinateY, $text_color, $font_path, $this->getText());
         imagepng($this->image);
     }
-
-
 }

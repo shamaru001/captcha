@@ -23,7 +23,6 @@ class captcha{
     private $angle = 0;
 
     public function __construct($textSize = 5, $RandomTextSize = false, $text=""){
-
         if ($RandomTextSize){
             $this->textSize = rand(1, 10);
         }
@@ -42,6 +41,7 @@ class captcha{
             $this->text = substr($textCreator, 0, $this->textSize);
         }
 
+        $this->image = imagecreate($this->width, $this->heigth);
     }
 
     /**
@@ -85,11 +85,25 @@ class captcha{
     }
 
     function showImage(){
-        $this->image = imagecreate($this->width, $this->heigth);
-        $background_color = imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
-        $text_color = imagecolorallocate($this->image, $this->RGBTextColor[0], $this->RGBTextColor[1], $this->RGBTextColor[2]);
-        $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf"); 
-        imagettftext($this->image, $this->heigth/2, $this->angle, $this->coordinateX, $this->coordinateY, $text_color, $font_path, $this->getText());
+
+        $this->drawText();
+
+        //imagettftext($this->image, $this->heigth/2, $this->angle, $this->coordinateX, $this->coordinateY, $text_color, $font_path, $this->getText());
         imagepng($this->image);
     }
+
+    private function drawText(){
+        $text_space = (float) $this->width/$this->textSize;
+        
+        $background_color = imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
+        $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf"); 
+        $text_color = imagecolorallocate($this->image, $this->RGBTextColor[0], $this->RGBTextColor[1], $this->RGBTextColor[2]);
+        $space_x = 0;
+        for ($i = 0; $i < $this->textSize; $i++){
+            imagettftext($this->image, $this->heigth/2, $this->angle, rand($space_x, $space_x + $text_space/2) , rand($this->coordinateY/0.5,$this->coordinateY), $text_color, $font_path, $this->text[$i]);
+            $space_x += $text_space;
+        }
+        
+    }
 }
+

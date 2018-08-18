@@ -4,10 +4,11 @@ namespace shamaru001\captcha;
 /**
 *  This class is to instance the captcha
 *
-*  Use this section to define what this class is doing, the PHPDocumentator will use this
-*  to automatically generate an API documentation using this information.
+*  This class will make a captcha image
+*  you can use freely. kind regard
 *
 *  @author Shamaru Primera
+*  @license MIT
 */
 class captcha{
     private $image = null;
@@ -16,18 +17,18 @@ class captcha{
     private $RGBBackgroundColor = [0,100,0];
     private $RGBImageBackground = null;
     private $RGBTextColor = [233,14,91];
-    private $textSize = 5;
+    private $textQuantity = 5;
     private $text = "text on screen";
     private $coordinateX = 0;
     private $coordinateY = 50;
     private $angle = 0;
 
-    public function __construct($textSize = 5, $RandomTextSize = false, $text=""){
-        if ($RandomTextSize){
-            $this->textSize = rand(1, 10);
+    public function __construct($textQuantity = 5, $RandomtextQuantity = false, $text=""){
+        if ($RandomtextQuantity){
+            $this->textQuantity = rand(1, 10);
         }
         else{
-            $this->textSize = $textSize;
+            $this->textQuantity = $textQuantity;
         }
 
         if (!empty($text)){
@@ -35,13 +36,19 @@ class captcha{
         }
         else{
             $textCreator = "";
-            while (strlen($textCreator) <= (int) $this->textSize){
+            while (strlen($textCreator) <= (int) $this->textQuantity){
                 $textCreator .= mt_rand();
             }
-            $this->text = substr($textCreator, 0, $this->textSize);
+            $this->text = substr($textCreator, 0, $this->textQuantity);
         }
+    }
 
-        $this->image = imagecreate($this->width, $this->heigth);
+    function setWidth($width){
+        $this->width = $width;
+    }
+
+    function setHeigth($heigth){
+        $this->heigth = $heigth;
     }
 
     /**
@@ -85,25 +92,22 @@ class captcha{
     }
 
     function showImage(){
-
+        $this->image = imagecreate($this->width, $this->heigth);
         $this->drawText();
-
-        //imagettftext($this->image, $this->heigth/2, $this->angle, $this->coordinateX, $this->coordinateY, $text_color, $font_path, $this->getText());
         imagepng($this->image);
     }
 
     private function drawText(){
-        $text_space = (float) $this->width/$this->textSize;
+        $text_space = (float) $this->width/$this->textQuantity;
         
         imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
         $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf"); 
         $text_color = imagecolorallocate($this->image, $this->RGBTextColor[0], $this->RGBTextColor[1], $this->RGBTextColor[2]);
         $space_x = 0;
-        for ($i = 0; $i < $this->textSize; $i++){
+        for ($i = 0; $i < $this->textQuantity; $i++){
             imagettftext($this->image, $this->heigth/2, $this->angle, rand($space_x, $space_x + $text_space/2) , rand($this->coordinateY/0.5,$this->coordinateY), $text_color, $font_path, $this->text[$i]);
             $space_x += $text_space;
         }
-        
     }
 }
 

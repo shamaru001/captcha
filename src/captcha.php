@@ -12,7 +12,7 @@ namespace shamaru001\captcha;
 class captcha{
     private $image = null;
     private $width  = 200;
-    private $heigth = 100;
+    private $heigth = 200;
     private $RGBBackgroundColor = [0,100,0];
     private $RGBImageBackground = null;
     private $RGBTextColor = [233,14,91];
@@ -95,7 +95,7 @@ class captcha{
     private function drawText(){
         $text_space = (float) $this->width/$this->textSize;
         
-        $background_color = imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
+        imagecolorallocate($this->image, $this->RGBBackgroundColor[0], $this->RGBBackgroundColor[1], $this->RGBBackgroundColor[2]);
         $font_path =  realpath(__DIR__."/fonts/Pacifico.ttf"); 
         $text_color = imagecolorallocate($this->image, $this->RGBTextColor[0], $this->RGBTextColor[1], $this->RGBTextColor[2]);
         $space_x = 0;

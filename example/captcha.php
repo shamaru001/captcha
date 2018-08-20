@@ -16,11 +16,9 @@ $captcha = new captcha(5);
 $captcha->setRandomValues();
 $captcha->setWidth(400);
 $captcha->setHeigth(400);
-$captcha->setCoordinateX(1000);
-$captcha->setCoordinateY(100);
-$captcha->setAngle(90);
+//$captcha->setCoordinateX(1000);
+$captcha->setCoordinateY(200);
+//$captcha->setAngle(90);
 $captcha->showImage();
 
-
-?>
 
